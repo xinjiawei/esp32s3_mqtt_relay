@@ -1,0 +1,44 @@
+idf_component_register(
+                    SRCS
+                    	app_main.c
+                    	form_parser.c
+                    	led.c
+                    	mqtt4.c
+                    	tools.c
+                    	web_handler.c
+                    	wifimanager.c
+                    	uart.c
+                    	ota.c
+                    	watchdog.c
+                    	lcd.c
+                    PRIV_REQUIRES
+                    	esp_driver_tsens
+                    	mqtt
+                    	json
+                    	spiffs
+                    	http_parser
+                    	tcp_transport
+                    	bootloader_support
+                    	nvs_flash
+                    	spi_flash
+                    	app_update
+                    	wpa_supplicant
+                    	bt
+                    	esp_netif
+                    	esp_wifi
+                    	esp_rom
+                    	esp_lcd
+                    	esp_driver_gpio
+                    	esp_driver_uart
+                    	esp_driver_rmt
+                    	esp_driver_i2c
+                    	esp_driver_spi
+                    	esp_partition
+                    	esp_app_format
+                    	esp_bootloader_format
+                    	esp_event
+                    	esp_https_ota
+                    	esp_http_client
+                    	esp_http_server
+                    EMBED_TXTFILES ${project_dir}/components/server_certs/ca_cert.pem
+                    PRIV_INCLUDE_DIRS ../components/zh_syslog/include)
