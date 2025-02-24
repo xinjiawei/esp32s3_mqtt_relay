@@ -15,6 +15,8 @@
 #include "uart.h"
 #include "ota.h"
 #include "lcd.h"
+#include "ir.h"
+#include "button.h"
 
 #define SYSLOG_IP "10.168.1.128"
 #define SYSLOG_PORT 514
@@ -92,13 +94,19 @@ void app_main(void)
 	zh_syslog_send(ZH_USER, ZH_INFO, "esp32s3", "Message");
 	
 	
-	// mqtt
+	// mqtt task
 	mqtt_app_start();
+
+	
+	// ir task
+	nec_rx_init();
+	nec_rx(5000);
+	
+	//button
+	button_init();
 
 	/*
 	nec_tx_init();
-	nec_rx_init();
-
 	ir_nec_scan_code_t scan_code = {
 		.address = 0x0440,
 		.command = 0x3003,

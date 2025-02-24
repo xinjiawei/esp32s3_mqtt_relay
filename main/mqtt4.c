@@ -53,9 +53,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		msg_id = esp_mqtt_client_publish(client, "online", response_s, 0, 0, 0);
 		ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
-		// msg_id = esp_mqtt_client_subscribe(client, "dht20", 0);
-		// ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
-
 		msg_id = esp_mqtt_client_subscribe(client, "sysop_get_s3_01", 0);
 		ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
 
@@ -180,9 +177,9 @@ void mqtt_app_start()
 	esp_mqtt_client_config_t mqtt_cfg = {
 		.broker.address.uri = mqtt4_connect_url,
 		//.credentials.client_id = "esp32s3",
-		.task.priority = 10,
+		.task.priority = 6,
 		.task.stack_size = 10240,
-		.network.refresh_connection_after_ms = 55000 // 55秒刷新连接
+		//.network.refresh_connection_after_ms = 55000 // 55秒刷新连接
 	};
 
 	client = esp_mqtt_client_init(&mqtt_cfg);

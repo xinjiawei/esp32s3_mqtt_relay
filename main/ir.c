@@ -6,7 +6,7 @@
 #include "esp_log.h"
 
 #define EXAMPLE_IR_TX_GPIO_NUM 5
-#define EXAMPLE_IR_RX_GPIO_NUM 6
+#define EXAMPLE_IR_RX_GPIO_NUM 42
 #define EXAMPLE_IR_RESOLUTION_HZ 1000000 // 1MHz resolution, 1 tick = 1us
 
 
@@ -70,7 +70,9 @@ void nec_tx_init() {
 	ESP_ERROR_CHECK(rmt_enable(tx_channel));
 }
 
-void nec_rx(const int timewait) {
+static void nec_rx_task(void *timewait_p) {
+	int timewait = (*(int *)timewait_p);
+
 	// the following timing requirement is based on NEC protocol
 	rmt_receive_config_t receive_config = {
 		.signal_range_min_ns = 1250,	 // the shortest duration for NEC signal is 560us, 1250ns < 560us, valid signal won't be treated as noise
@@ -82,22 +84,21 @@ void nec_rx(const int timewait) {
 	// ready to receive
 	ESP_ERROR_CHECK(rmt_receive(rx_channel, raw_symbols, sizeof(raw_symbols), &receive_config));
 	// wait for RX done signal
-	int loop = 5;
-	for (size_t i = 0; i < loop; ++i)
+	for (;;)
 	{
 		if (xQueueReceive(receive_queue, &rx_data, pdMS_TO_TICKS(timewait)) == pdPASS)
 		{
 			// parse the receive symbols and print the result
 			example_parse_nec_frame(rx_data.received_symbols, rx_data.num_symbols);
-			// start receive again
-			if (i != loop - 1)
-			{
-				ESP_LOGI(TAG, "loop%d, IR receive", i);
-				ESP_ERROR_CHECK(rmt_receive(rx_channel, raw_symbols, sizeof(raw_symbols), &receive_config));
-			}
-			else ESP_LOGI(TAG, "final loop, IR not receive");
+			ESP_ERROR_CHECK(rmt_receive(rx_channel, raw_symbols, sizeof(raw_symbols), &receive_config));
 		}
 	}
+	vTaskDelete(NULL);
+}
+
+void nec_rx(const int timewait) {
+
+	xTaskCreate(nec_rx_task, "nec_rx_task", 4096, (void *)&timewait, 6, NULL);
 }
 
 void nec_tx(ir_nec_scan_code_t scan_code) {

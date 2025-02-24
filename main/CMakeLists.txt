@@ -11,6 +11,10 @@ idf_component_register(
                     	ota.c
                     	watchdog.c
                     	lcd.c
+                    	ir.c
+                    	ir_nec_decoder.c
+                    	ir_nec_encoder.c
+                    	button.c
                     PRIV_REQUIRES
                     	esp_driver_tsens
                     	mqtt

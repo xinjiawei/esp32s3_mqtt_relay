@@ -276,6 +276,6 @@
         <ShowInLiveWatch>false</ShowInLiveWatch>
       </RelatedExecutable>
     </RelatedExecutables>
-    <CheckInterfaceDrivers>true</CheckInterfaceDrivers>
+    <CheckInterfaceDrivers>false</CheckInterfaceDrivers>
   </Debug>
 </VisualGDBProjectSettings2>
