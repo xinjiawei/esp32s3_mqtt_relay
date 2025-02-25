@@ -34,7 +34,7 @@
 #define ESP_LOG_LEVEL_LOCAL(level, tag, format, ...)                \
 	do                                                              \
 	{                                                               \
-		if (LOG_LOCAL_LEVEL >= level){ zh_syslog_send(ZH_USER, ZH_INFO, "esp32s3", "Message"); ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__);} \
+		if (LOG_LOCAL_LEVEL >= level){ /*zh_syslog_send(ZH_USER, ZH_INFO, "esp32s3", "Message");*/ ESP_LOG_LEVEL(level, tag, format, ##__VA_ARGS__);} \
 	} while (0)
 #endif // CONFIG_LOG_MASTER_LEVEL
 

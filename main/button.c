@@ -1,11 +1,6 @@
-#include "driver/gpio.h"
-#include "esp_log.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/queue.h"
-#include "freertos/task.h"
-#include <stdio.h>
+#include "button.h"
+#include "buzzer.h"
 
-#define BUTTON_GPIO_PIN 4		 // 按钮连接的 GPIO 引脚
 #define SHORT_PRESS_TIME_MS 1000 // 短按时间阈值
 #define LONG_PRESS_TIME_MS_MIN 2000	 // 长按时间阈值
 #define LONG_PRESS_TIME_MS_MAX 5000	 // 长按时间阈值
@@ -103,6 +98,8 @@ static void button_task(void *arg)
 				// 判断按下时间
 				if (press_duration > 5 && press_duration < pdMS_TO_TICKS(SHORT_PRESS_TIME_MS))
 				{
+					buzzer();
+					led_blink(0, 16, 0);
 					ESP_LOGI(TAG, "Power trager %d %lu %lu", button_match, press_time, press_duration);
 					// 短按逻辑：电源开关
 				}
@@ -118,19 +115,12 @@ static void button_task(void *arg)
 
 void button_init(void)
 {
-	// 配置 GPIO
-	gpio_config_t io_conf = {};
-	io_conf.intr_type = GPIO_INTR_ANYEDGE; // 双边沿触发中断
-	io_conf.pin_bit_mask = (1ULL << BUTTON_GPIO_PIN);
-	io_conf.mode = GPIO_MODE_INPUT;
-	io_conf.pull_up_en = 1; // 启用上拉电阻
-	gpio_config(&io_conf);
 
 	// 创建按钮事件队列
 	button_event_queue = xQueueCreate(10, sizeof(button_event_t));
 	if (button_event_queue == NULL)
 	{
-		printf("Failed to create queue!\n");
+		ESP_LOGE(TAG,"Failed to create queue!\n");
 		return;
 	}
 
@@ -141,5 +131,5 @@ void button_init(void)
 	// 创建按钮处理任务
 	xTaskCreate(button_task, "button_task", 3000, NULL, 10, NULL);
 
-	printf("Button task started. Press the button to test.\n");
+	ESP_LOGI(TAG,"Button task started");
 }

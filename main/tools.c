@@ -167,17 +167,17 @@ char *get_chip_id()
  *打印系统信息*/
 void print_sys_info()
 {
-	printf("\n\n------ Get Systrm Info------\n");
+	ESP_LOGI(TAG, "\n\n------ Get Systrm Info-----");
 	// 获取IDF版本
-	printf("SDK version:%s\n", esp_get_idf_version());
+	ESP_LOGI(TAG, "SDK version:%s", esp_get_idf_version());
 	// 获取芯片可用内存
-	printf("esp_get_free_heap_size : %ld  \n", (unsigned long int) esp_get_free_heap_size());
+	ESP_LOGI(TAG, "esp_get_free_heap_size : %ld ", (unsigned long int) esp_get_free_heap_size());
 	// 获取从未使用过的最小内存
-	printf("esp_get_minimum_free_heap_size : %ld  \n", (unsigned long int) esp_get_minimum_free_heap_size());
+	ESP_LOGI(TAG, "esp_get_minimum_free_heap_size : %ld ", (unsigned long int) esp_get_minimum_free_heap_size());
 	uint8_t mac[6];
 	esp_read_mac(mac, ESP_MAC_WIFI_STA);
-	printf("esp_read_mac(): %02x:%02x:%02x:%02x:%02x:%02x \n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-	printf("------------------------------\n\n");
+	ESP_LOGI(TAG, "esp_read_mac(): %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+	ESP_LOGI(TAG, "------------------------------");
 }
 
 /*
@@ -276,95 +276,6 @@ void print_ddsu666_params(uint8_t bytes[], volatile float *voltage, volatile flo
 						  volatile float *a_power, volatile float *r_power, volatile float *ap_power,
 						  volatile float *power_factor, volatile float *power_frequency)
 {
-	uint8_t ptr;
-	int ints_4[4];
-	// int data_len = sizeof(bytes);
-
-	// A 相电压
-	ptr = 3; // Point to voltage data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float v = float_from_8hex(ints_4); // Decode the 4 byte single precision float
-	printf("Volts = %f\r\n", v);	   // Log converted float value (optional).
-	*voltage = v;
-
-	// A 相电流
-	ptr = 7; // Point to current data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float c = float_from_8hex(ints_4); // Decode the 4 byte single precision float
-	printf("Current = %f\r\n", c);	   // Log converted float value (optional).
-	*current = c;
-
-	// 总有功功率
-	ptr = 11; // Point to power data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float ap = float_from_8hex(ints_4);	 // Decode the 4 byte single precision float
-	printf("active Power = %f\r\n", ap); // Log converted float value (optional).
-	*a_power = ap;
-
-	// 总无功功率
-	ptr = 15; // Point to power data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float rp = float_from_8hex(ints_4);	   // Decode the 4 byte single precision float
-	printf("reactive power = %f\r\n", rp); // Log converted float value (optional).
-	*r_power = rp;
-
-	// 总视在功率
-	ptr = 19; // Point to power data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float ap_p = float_from_8hex(ints_4);	 // Decode the 4 byte single precision float
-	printf("apparent power = %f\r\n", ap_p); // Log converted float value (optional).
-	*ap_power = ap_p;
-
-	// 功率因素
-	ptr = 23; // Point to power data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float p_f = float_from_8hex(ints_4);  // Decode the 4 byte single precision float
-	printf("power factor = %f\r\n", p_f); // Log converted float value (optional).
-	*power_factor = p_f;
-
-	// 电网频率
-	ptr = 31;
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float p_fr = float_from_8hex(ints_4);	  // Decode the 4 byte single precision float
-	printf("power frequency = %f\r\n", p_fr); // Log converted float value (optional).
-	*power_frequency = p_fr;
-}
-
-/*
- *解析电表累计电量数据*/
-void print_ddsu666_total_energy(uint8_t bytes[], volatile float *total_energy)
-{
-	uint8_t ptr;
-	int ints_4[4];
-	ptr = 3; // Point to total incoming energy data
-	for (int z = 0; z < 4; z++)
-	{
-		ints_4[z] = bytes[ptr + z]; // Copy 4 bytes from vector array to int array
-	}
-	float energy = float_from_8hex(ints_4);
-	printf("Total Energy = %f\r\n", energy); // Log converted float value (optional).
-	*total_energy = energy;
 }
 
 /*
@@ -373,7 +284,7 @@ void debug_switch()
 {
 	extern int debug;
 	debug = !debug;
-	printf("debug mode is %d\r\n", debug);
+	ESP_LOGW(TAG, "debug mode is %d\r\n", debug);
 }
 
 void led_loop(int times)

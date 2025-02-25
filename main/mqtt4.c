@@ -5,11 +5,14 @@
 #include "uart.h"
 #include "web_handler.h"
 #include "wifimanager.h"
+#include "buzzer.h"
 // #include "ir.h"
 //  #include "esp_heap_trace.h"
 
+#define RESPONSE_SIZE 1024
+
 static const char *TAG = "mqtt";
-char response_s[5120];
+char response_s[RESPONSE_SIZE];
 static int mqtt_disconnect_count = 0;
 // mqtt允许的连续断开次数最大值
 const static int mqtt_disconnect_count_max = 5;
@@ -51,16 +54,15 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		mqtt_disconnect_count = 0;
 		ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
 		msg_id = esp_mqtt_client_publish(client, "online", response_s, 0, 0, 0);
-		ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
+		ESP_LOGI(TAG, "publish successful, msg_id=%d", msg_id);
 
-		msg_id = esp_mqtt_client_subscribe(client, "sysop_get_s3_01", 0);
-		ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+		msg_id = esp_mqtt_client_subscribe(client, "s3sysop-get", 0);
+		ESP_LOGI(TAG, "subscribe successful, msg_id=%d", msg_id);
 
-		msg_id = esp_mqtt_client_subscribe(client, "sysop_set_s3_01", 0);
-		ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+		msg_id = esp_mqtt_client_subscribe(client, "s3sysop-set", 0);
+		ESP_LOGI(TAG, "subscribe successful, msg_id=%d", msg_id);
 
-		msg_id = esp_mqtt_client_subscribe(client, "esp32_response", 0);
-		ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+		msg_id = esp_mqtt_client_publish(client, "s3esp32_response", "online", 0, 0, 1);
 
 		break;
 	case MQTT_EVENT_DISCONNECTED:
@@ -86,29 +88,30 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		break;
 	case MQTT_EVENT_DATA:
 		ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-		printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-		printf("DATA=%.*s\r\n", event->data_len, event->data);
+		ESP_LOGI(TAG,"TOPIC=%.*s", event->topic_len, event->topic);
+		ESP_LOGI(TAG,"DATA=%.*s", event->data_len, event->data);
 
 		char *c_topic = get_len_str(event->topic, event->topic_len);
 		char *c_data = get_len_str(event->data, event->data_len);
 		char *response = response_s;
-		if (strcmp(c_topic, "sysop-get") == 0)
+		buzzer();
+		if (strcmp(c_topic, "s3sysop-get") == 0)
 		{
-			free(c_topic);
 			// todo 执行可能导致系统崩溃, 怀疑是c99标准和nano format兼容问题
 			if (strcmp(c_data, "info-sys") == 0)
 			{
-				printf("trigger get sys info \r\n");
+				ESP_LOGI(TAG,"trigger get sys info");
 				char *response_t = index_handler(-1, "");
-				strcpy(response, response_t);
+				
+				strncpy(response, response_t, RESPONSE_SIZE - 1);
+				response[RESPONSE_SIZE - 1] = '\0'; // 确保字符串以 '\0' 结尾
+
 				free(response_t);
 			}
 			lcd_print(c_data);
-			free(c_data);
 		}
-		if (strcmp(c_topic, "sysop-set") == 0)
+		if (strcmp(c_topic, "s3sysop-set") == 0)
 		{
-			free(c_topic);
 			if (strcmp(c_data, "reset_wifi") == 0)
 			{
 				wifi_reset();
@@ -119,7 +122,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 			}
 			if (strcmp(c_data, "ota_update") == 0)
 			{
-				response = "ota update";
+				strncpy(response, "ota update\0", RESPONSE_SIZE - 1);
+				response[RESPONSE_SIZE - 1] = '\0';
 				create_ota_tag();
 			}
 			if (strcmp(c_data, "debug_mode") == 0)
@@ -128,22 +132,27 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 				extern int debug;
 				if (debug)
 				{
-					response = "debug_mode on";
+					strncpy(response, "debug_mode on\0", RESPONSE_SIZE - 1);
+					response[RESPONSE_SIZE - 1] = '\0';
 				}
 				else
-					response = "debug_mode off";
+				{
+					strncpy(response, "debug_mode off\0", RESPONSE_SIZE - 1);
+					response[RESPONSE_SIZE - 1] = '\0';
+				}
 			}
 			lcd_print(c_data);
-			free(c_data);
+			
 		}
-		if (strcmp(c_topic, "esp32_response") == 0)
-		{
-			index_handler(0, c_data);
-		}
-		msg_id = esp_mqtt_client_publish(client, "esp32_response_s3_01", response, 0, 0, 1);
+		free(c_topic);
+		free(c_data);
+		msg_id = esp_mqtt_client_publish(client, "s3esp32_response", response, 0, 0, 1);
 		extern int debug;
 		if (debug)
-			printf("sent sys info successful, msg_id=%d, resp: %s\r\n", msg_id, response);
+		{
+			print_free_heap();
+			ESP_LOGI(TAG, "sent sys info successful, msg_id=%d, resp: %s", msg_id, response);
+		}
 		// free(response);
 		
 		led_blink(16,0,0);
@@ -163,7 +172,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		ESP_LOGI(TAG, "Other event id:%d", event->event_id);
 		break;
 	}
-	print_free_heap();
 }
 
 void mqtt_app_start()

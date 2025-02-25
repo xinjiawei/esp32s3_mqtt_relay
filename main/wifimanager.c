@@ -151,9 +151,8 @@ static void event_handler(void *arg, esp_event_base_t event_base,
 			ESP_LOGI(TAG, "RVD_DATA:");
 			for (int i = 0; i < 33; i++)
 			{
-				printf("%02x ", rvd_data[i]);
+				ESP_LOGI(TAG, "%02x ", rvd_data[i]);
 			}
-			printf("\n");
 		}
 
 		ESP_ERROR_CHECK(esp_wifi_disconnect());

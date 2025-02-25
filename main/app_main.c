@@ -8,6 +8,7 @@
 #include "esp_netif.h"
 #include "driver/temperature_sensor.h"
 
+#include "gpio_init.h"
 #include "led.h"
 #include "wifimanager.h"
 #include "mqtt4.h"
@@ -17,6 +18,7 @@
 #include "lcd.h"
 #include "ir.h"
 #include "button.h"
+#include "buzzer.h"
 
 #define SYSLOG_IP "10.168.1.128"
 #define SYSLOG_PORT 514
@@ -43,10 +45,15 @@ const char *mqtt4_connect_url = CONFIG_DDSU666_MQTT;
 
 void app_main(void)
 {
-	// 初始化lcd
-	lcd_init();
 	// debug
 	debug = 0;
+
+	//初始化gpio
+	gpio_init();
+
+	// 初始化lcd
+	lcd_init();
+	
 	// heap_trace_init_standalone(trace_record, NUM_RECORDS);
 
 	lcd_print("net init . . .");
@@ -99,11 +106,16 @@ void app_main(void)
 
 	
 	// ir task
+	lcd_print("ir init . . .");
 	nec_rx_init();
 	nec_rx(5000);
 	
 	//button
+	lcd_print("button init . . .");
 	button_init();
+
+	lcd_print("ok");
+	buzzer();
 
 	/*
 	nec_tx_init();

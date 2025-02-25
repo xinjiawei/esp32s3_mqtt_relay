@@ -158,29 +158,15 @@ static void get_rec_data(uint8_t *data_rec_p, int data_rec_len)
 			byte_i = data_rec_p[i];
 			if (debug)
 			{
-				printf("i: %d, int:%d, 0x%02X\r\n", i, data_rec_p[i], byte_i);
+				ESP_LOGI(TAG, "i: %d, int:%d, 0x%02X\r\n", i, data_rec_p[i], byte_i);
 			}
 			hexArray[i] = byte_i;
 		}
 		if (debug)
 			printf("end\r\n");
-		if (data_rec_len == 41)
-		{
-			volatile float *voltage_p = &voltage;
-			volatile float *current_p = &current;
-			volatile float *a_power_p = &a_power;
-			volatile float *r_power_p = &r_power;
-			volatile float *ap_power_p = &ap_power;
-			volatile float *power_factor_p = &power_factor;
-			volatile float *power_frequency_p = &power_frequency;
-
-			print_ddsu666_params(hexArray, voltage_p, current_p, a_power_p, r_power_p,
-								 ap_power_p, power_factor_p, power_frequency_p);
-		}
 		if (data_rec_len == 9)
 		{
-			volatile float *total_engery_p = &total_engery;
-			print_ddsu666_total_energy(hexArray, total_engery_p);
+
 		}
 	}
 	else

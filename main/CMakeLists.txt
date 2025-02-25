@@ -15,6 +15,8 @@ idf_component_register(
                     	ir_nec_decoder.c
                     	ir_nec_encoder.c
                     	button.c
+                    	gpio_init.c
+                    	buzzer.c
                     PRIV_REQUIRES
                     	esp_driver_tsens
                     	mqtt

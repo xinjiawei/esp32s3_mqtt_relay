@@ -1,5 +1,6 @@
 #include "ir_nec_decoder.h"
-
+#include "buzzer.h"
+#include "led.h"
 #define EXAMPLE_IR_NEC_DECODE_MARGIN 200 // Tolerance for parsing RMT symbols into bit stream
 
 /**
@@ -19,6 +20,8 @@
  */
 static uint16_t s_nec_code_address;
 static uint16_t s_nec_code_command;
+
+static const char *TAG = "IR_DEC";
 
 /**
  * @brief Check whether a duration is within expected range
@@ -115,30 +118,32 @@ static bool nec_parse_frame_repeat(rmt_symbol_word_t *rmt_nec_symbols)
  */
 void example_parse_nec_frame(rmt_symbol_word_t *rmt_nec_symbols, size_t symbol_num)
 {
-	printf("NEC frame start---\r\n");
+	ESP_LOGI(TAG, "NEC frame start---");
 	for (size_t i = 0; i < symbol_num; i++)
 	{
-		printf("{%d:%d},{%d:%d}\r\n", rmt_nec_symbols[i].level0, rmt_nec_symbols[i].duration0,
+		ESP_LOGI(TAG, "{%d:%d},{%d:%d}", rmt_nec_symbols[i].level0, rmt_nec_symbols[i].duration0,
 			   rmt_nec_symbols[i].level1, rmt_nec_symbols[i].duration1);
 	}
-	printf("---NEC frame end: ");
+	ESP_LOGI(TAG, "---NEC frame end: ");
 	// decode RMT symbols
 	switch (symbol_num)
 	{
 	case 34: // NEC normal frame
 		if (nec_parse_frame(rmt_nec_symbols))
 		{
-			printf("Address=%04X, Command=%04X\r\n\r\n", s_nec_code_address, s_nec_code_command);
+			ESP_LOGI(TAG, "Address=%04X, Command=%04X", s_nec_code_address, s_nec_code_command);
 		}
+		led_blink(0, 0, 16);
+		buzzer();
 		break;
 	case 2: // NEC repeat frame
 		if (nec_parse_frame_repeat(rmt_nec_symbols))
 		{
-			printf("Address=%04X, Command=%04X, repeat\r\n\r\n", s_nec_code_address, s_nec_code_command);
+			ESP_LOGI(TAG, "Address=%04X, Command=%04X, repeat", s_nec_code_address, s_nec_code_command);
 		}
 		break;
 	default:
-		printf("symbol_num %d, Unknown NEC frame\r\n\r\n", symbol_num);
+		ESP_LOGI(TAG, "symbol_num %d, Unknown NEC frame", symbol_num);
 		break;
 	}
 }

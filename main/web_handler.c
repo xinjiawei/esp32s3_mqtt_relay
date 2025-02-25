@@ -13,7 +13,7 @@
 #define RET_BUFFER_SIZE 128
 #define TMP_BUFFER_SIZE 64
 
-static const char *TAG = "event handler";
+static const char *TAG = "eventHandler";
 
 #define CHECK_IS_NULL(value, ret) \
 	if (value == NULL)            \
@@ -45,20 +45,6 @@ static void get_info_handle(char **response)
 	snprintf(ret_buffer, RET_BUFFER_SIZE, "%sKB", tmp_buffer);
 	cJSON_AddStringToObject(root, "free_heap", ret_buffer);
 
-	static const char *reset_reason_str[] = {"can not be determined",
-											 "power-on event",
-											 "external pin",
-											 "esp_restart",
-											 "exception/panic",
-											 "interrupt watchdog",
-											 "task watchdog",
-											 "other watchdogs",
-											 "exiting deep sleep mode",
-											 "browout reset",
-											 "SDIO"};
-	cJSON_AddStringToObject(root, "reset_reason",
-							reset_reason_str[esp_reset_reason()]);
-
 	wifi_ap_record_t ap;
 	esp_wifi_sta_get_ap_info(&ap);
 	cJSON_AddStringToObject(root, "wifi_ssid", (char *)ap.ssid);
@@ -83,6 +69,7 @@ static void get_info_handle(char **response)
 	// cJSON_AddStringToObject(root, "free_sketch_size", );
 
 	cJSON_AddStringToObject(root, "core_version", CORE_VERSION);
+
 
 	cJSON_AddStringToObject(root, "sdk_version", esp_get_idf_version());
 
@@ -120,6 +107,45 @@ static void get_info_handle(char **response)
 	snprintf(ret_buffer, RET_BUFFER_SIZE, "%d", debug);
 	cJSON_AddStringToObject(root, "is_debug", ret_buffer);
 
+
+	static const char *reset_reason_str[] = {"can not be determined",
+											 "power-on event",
+											 "external pin",
+											 "esp_restart",
+											 "exception/panic",
+											 "interrupt watchdog",
+											 "task watchdog",
+											 "other watchdogs",
+											 "exiting deep sleep mode",
+											 "browout reset",
+											 "SDIO",
+											 "USB peripheral",
+											 "JTAG",
+											 "efuse error",
+											 "power glitch detected",
+											 "CPU lock up"};
+/*
+	ESP_RST_UNKNOWN,    //!< Reset reason can not be determined
+	ESP_RST_POWERON,    //!< Reset due to power-on event
+	ESP_RST_EXT,        //!< Reset by external pin (not applicable for ESP32)
+	ESP_RST_SW,         //!< Software reset via esp_restart
+	ESP_RST_PANIC,      //!< Software reset due to exception/panic
+	ESP_RST_INT_WDT,    //!< Reset (software or hardware) due to interrupt watchdog
+	ESP_RST_TASK_WDT,   //!< Reset due to task watchdog
+	ESP_RST_WDT,        //!< Reset due to other watchdogs
+	ESP_RST_DEEPSLEEP,  //!< Reset after exiting deep sleep mode
+	ESP_RST_BROWNOUT,   //!< Brownout reset (software or hardware)
+	ESP_RST_SDIO,       //!< Reset over SDIO
+	ESP_RST_USB,        //!< Reset by USB peripheral
+	ESP_RST_JTAG,       //!< Reset by JTAG
+	ESP_RST_EFUSE,      //!< Reset due to efuse error
+	ESP_RST_PWR_GLITCH, //!< Reset due to power glitch detected
+	ESP_RST_CPU_LOCKUP, //!< Reset due to CPU lock up (double exception)
+*/
+
+	cJSON_AddStringToObject(root, "reset_reason",
+							reset_reason_str[esp_reset_reason()]);
+
 	*response = cJSON_Print(root);
 	cJSON_Delete(root);
 }
@@ -132,7 +158,7 @@ void print_free_heap()
 	char tmp_buffer[TMP_BUFFER_SIZE];
 	itoa(heap_caps_get_free_size(MALLOC_CAP_32BIT) / 1024, tmp_buffer, 10);
 	snprintf(ret_buffer, RET_BUFFER_SIZE, "%sKB", tmp_buffer);
-	printf("free_heap %s\r\n", ret_buffer);
+	ESP_LOGI(TAG, "free_heap %s", ret_buffer);
 }
 
 void power_info_print(char *value) {
@@ -140,7 +166,7 @@ void power_info_print(char *value) {
 	cJSON *root = cJSON_Parse(value);
 	if (!root)
 	{
-		printf("Error before: [%s]\n", cJSON_GetErrorPtr());
+		ESP_LOGW(TAG, "Error before: [%s]", cJSON_GetErrorPtr());
 		return;
 	}
 
@@ -192,6 +218,6 @@ char *index_handler(int key, char *value)
 	}
 	extern int debug;
 	if (debug)
-		ESP_LOGI(TAG, "key: %d, response: %s\r\n", key, response_t);
+		ESP_LOGI(TAG, "key: %d, response: %s", key, response_t);
 	return response_t;
 }
