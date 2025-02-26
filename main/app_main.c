@@ -116,6 +116,8 @@ void app_main(void)
 
 	lcd_print("ok");
 	buzzer();
+	buzzer();
+	buzzer();
 
 	/*
 	nec_tx_init();

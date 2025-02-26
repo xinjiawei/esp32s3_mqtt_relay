@@ -1481,11 +1481,11 @@
 		},
 		{
 			"backtrace" : 9,
-			"id" : "__idf_lvgl__lvgl::@7baf6209f13c88c0bab5"
+			"id" : "__idf_espressif__esp_lvgl_port::@85ab997cbe8039c1121c"
 		},
 		{
 			"backtrace" : 9,
-			"id" : "__idf_espressif__esp_lvgl_port::@85ab997cbe8039c1121c"
+			"id" : "__idf_lvgl__lvgl::@7baf6209f13c88c0bab5"
 		}
 	],
 	"id" : "__idf_main::@7368607ed66887415643",

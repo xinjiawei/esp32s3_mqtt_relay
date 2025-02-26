@@ -2275,7 +2275,7 @@
 				{
 					"directoryIndex" : 16,
 					"id" : "__idf_esp_app_format::@08c2bdce7fd85cdbea06",
-					"jsonFile" : "target-__idf_esp_app_format-RELEASE-c4fc2a4f282221c8b7e4.json",
+					"jsonFile" : "target-__idf_esp_app_format-RELEASE-167275ecee5210de346e.json",
 					"name" : "__idf_esp_app_format",
 					"projectIndex" : 1
 				},
@@ -2457,7 +2457,7 @@
 				{
 					"directoryIndex" : 93,
 					"id" : "__idf_esp_https_ota::@55ee5ec07370a5473c2b",
-					"jsonFile" : "target-__idf_esp_https_ota-RELEASE-ec49232ca61eb199fcc2.json",
+					"jsonFile" : "target-__idf_esp_https_ota-RELEASE-971669a2cba70e80c1d9.json",
 					"name" : "__idf_esp_https_ota",
 					"projectIndex" : 1
 				},
@@ -2485,7 +2485,7 @@
 				{
 					"directoryIndex" : 99,
 					"id" : "__idf_esp_local_ctrl::@d6aad58d2946e56208ef",
-					"jsonFile" : "target-__idf_esp_local_ctrl-RELEASE-4ab4347ccb730723c4ee.json",
+					"jsonFile" : "target-__idf_esp_local_ctrl-RELEASE-654cdacadbc3cfe5822e.json",
 					"name" : "__idf_esp_local_ctrl",
 					"projectIndex" : 1
 				},
@@ -2646,7 +2646,7 @@
 				{
 					"directoryIndex" : 117,
 					"id" : "__idf_main::@7368607ed66887415643",
-					"jsonFile" : "target-__idf_main-RELEASE-cc1238123f9cf99490aa.json",
+					"jsonFile" : "target-__idf_main-RELEASE-38278f1ad22cf4d3005e.json",
 					"name" : "__idf_main",
 					"projectIndex" : 1
 				},
@@ -2786,7 +2786,7 @@
 				{
 					"directoryIndex" : 114,
 					"id" : "__idf_wifi_provisioning::@9d7e7ffe1b15746c1098",
-					"jsonFile" : "target-__idf_wifi_provisioning-RELEASE-69175a700b2b449353c0.json",
+					"jsonFile" : "target-__idf_wifi_provisioning-RELEASE-4ee906814e334f680d4c.json",
 					"name" : "__idf_wifi_provisioning",
 					"projectIndex" : 1
 				},
@@ -2814,7 +2814,7 @@
 				{
 					"directoryIndex" : 24,
 					"id" : "__ldgen_output_sections.ld::@874df54e61e20112dfd4",
-					"jsonFile" : "target-__ldgen_output_sections.ld-RELEASE-dd2b860b1a3c4ded04ba.json",
+					"jsonFile" : "target-__ldgen_output_sections.ld-RELEASE-67a2177a5d6edc67990b.json",
 					"name" : "__ldgen_output_sections.ld",
 					"projectIndex" : 1
 				},
@@ -2891,7 +2891,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "dfu::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-dfu-RELEASE-65a725c773eedacc0817.json",
+					"jsonFile" : "target-dfu-RELEASE-110b43a5cc9d60f9f1cb.json",
 					"name" : "dfu",
 					"projectIndex" : 0
 				},
@@ -3003,7 +3003,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "esp32s3_mqtt_ddsu666.elf::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-esp32s3_mqtt_ddsu666.elf-RELEASE-bf331ae28cd241de6234.json",
+					"jsonFile" : "target-esp32s3_mqtt_ddsu666.elf-RELEASE-e44a015af01844a1135f.json",
 					"name" : "esp32s3_mqtt_ddsu666.elf",
 					"projectIndex" : 0
 				},
@@ -3017,7 +3017,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "flash::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-flash-RELEASE-ad046e2304470969da5b.json",
+					"jsonFile" : "target-flash-RELEASE-6bf78bd166992ee139b3.json",
 					"name" : "flash",
 					"projectIndex" : 0
 				},
@@ -3073,7 +3073,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "merge-bin::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-merge-bin-RELEASE-956336224eb69f6275d8.json",
+					"jsonFile" : "target-merge-bin-RELEASE-8300379c17f50d7381e2.json",
 					"name" : "merge-bin",
 					"projectIndex" : 0
 				},

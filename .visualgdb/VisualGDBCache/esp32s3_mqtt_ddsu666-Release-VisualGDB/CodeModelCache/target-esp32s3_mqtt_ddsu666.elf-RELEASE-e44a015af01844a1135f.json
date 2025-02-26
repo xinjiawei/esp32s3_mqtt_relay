@@ -1976,12 +1976,16 @@
 	"dependencies" : 
 	[
 		{
+			"backtrace" : 9,
+			"id" : "__idf_xtensa::@1daaaad7abe597e030f9"
+		},
+		{
 			"backtrace" : 209,
 			"id" : "_project_elf_src::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 9,
-			"id" : "__idf_xtensa::@1daaaad7abe597e030f9"
+			"backtrace" : 39,
+			"id" : "__idf_app_trace::@dd7eb3aa23293586d3b8"
 		},
 		{
 			"backtrace" : 62,
@@ -1996,8 +2000,8 @@
 			"id" : "__idf_console::@4311ed8d271cc0ee1422"
 		},
 		{
-			"backtrace" : 79,
-			"id" : "__idf_protocomm::@d76d01c8dec06205e1fc"
+			"backtrace" : 76,
+			"id" : "__idf_esp_https_server::@a47490a9e49b7eabdb18"
 		},
 		{
 			"backtrace" : 78,
@@ -2008,20 +2012,24 @@
 			"id" : "__idf_esp_lcd::@d5a84597e1633c9ab0d3"
 		},
 		{
-			"backtrace" : 82,
-			"id" : "__idf_wear_levelling::@cb21b0d7c0815cff11c6"
+			"backtrace" : 79,
+			"id" : "__idf_protocomm::@d76d01c8dec06205e1fc"
 		},
 		{
-			"backtrace" : 80,
-			"id" : "__idf_esp_local_ctrl::@d6aad58d2946e56208ef"
+			"backtrace" : 81,
+			"id" : "__idf_espcoredump::@718b9a7d55ab42cfc0a3"
 		},
 		{
 			"backtrace" : 83,
 			"id" : "__idf_fatfs::@75ac1d9b25dacc8cc9e7"
 		},
 		{
-			"backtrace" : 81,
-			"id" : "__idf_espcoredump::@718b9a7d55ab42cfc0a3"
+			"backtrace" : 82,
+			"id" : "__idf_wear_levelling::@cb21b0d7c0815cff11c6"
+		},
+		{
+			"backtrace" : 80,
+			"id" : "__idf_esp_local_ctrl::@d6aad58d2946e56208ef"
 		},
 		{
 			"backtrace" : 68,
@@ -2032,16 +2040,12 @@
 			"id" : "__idf_esp_hid::@15df40e16a5d8775dd9b"
 		},
 		{
-			"backtrace" : 76,
-			"id" : "__idf_esp_https_server::@a47490a9e49b7eabdb18"
+			"backtrace" : 85,
+			"id" : "__idf_mqtt::@c1ab2c6a99226d1f4b56"
 		},
 		{
 			"backtrace" : 86,
 			"id" : "__idf_nvs_sec_provider::@06580cba064af97f59fd"
-		},
-		{
-			"backtrace" : 85,
-			"id" : "__idf_mqtt::@c1ab2c6a99226d1f4b56"
 		},
 		{
 			"backtrace" : 84,
@@ -2052,16 +2056,16 @@
 			"id" : "__idf_touch_element::@01c672d9a2e23f1d367f"
 		},
 		{
-			"backtrace" : 87,
-			"id" : "__idf_perfmon::@aac0f647c32bb8f54a67"
-		},
-		{
 			"backtrace" : 88,
 			"id" : "__idf_spiffs::@df881b71474064c86689"
 		},
 		{
-			"backtrace" : 90,
-			"id" : "__idf_usb::@4a2418067d0bb57af462"
+			"backtrace" : 87,
+			"id" : "__idf_perfmon::@aac0f647c32bb8f54a67"
+		},
+		{
+			"backtrace" : 93,
+			"id" : "__idf_espressif__esp_lvgl_port::@85ab997cbe8039c1121c"
 		},
 		{
 			"backtrace" : 91,
@@ -2072,24 +2076,20 @@
 			"id" : "__idf_lvgl__lvgl::@7baf6209f13c88c0bab5"
 		},
 		{
-			"backtrace" : 94,
-			"id" : "__idf_main::@7368607ed66887415643"
-		},
-		{
-			"backtrace" : 93,
-			"id" : "__idf_espressif__esp_lvgl_port::@85ab997cbe8039c1121c"
+			"backtrace" : 90,
+			"id" : "__idf_usb::@4a2418067d0bb57af462"
 		},
 		{
 			"backtrace" : 95,
 			"id" : "__idf_zh_syslog::@5ea86cad32f82019192d"
 		},
 		{
-			"backtrace" : 214,
-			"id" : "__ldgen_output_sections.ld::@874df54e61e20112dfd4"
+			"backtrace" : 94,
+			"id" : "__idf_main::@7368607ed66887415643"
 		},
 		{
-			"backtrace" : 39,
-			"id" : "__idf_app_trace::@dd7eb3aa23293586d3b8"
+			"backtrace" : 214,
+			"id" : "__ldgen_output_sections.ld::@874df54e61e20112dfd4"
 		}
 	],
 	"id" : "esp32s3_mqtt_ddsu666.elf::@6890427a1f51a3e7e1df",
