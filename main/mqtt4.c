@@ -2,12 +2,13 @@
 
 #include "ota.h"
 #include "tools.h"
-#include "uart.h"
 #include "web_handler.h"
 #include "wifimanager.h"
-#include "buzzer.h"
+#include "switch.h"
+// #include "uart.h"
+// #include "buzzer.h"
 // #include "ir.h"
-//  #include "esp_heap_trace.h"
+// #include "esp_heap_trace.h"
 
 #define RESPONSE_SIZE 1024
 
@@ -77,8 +78,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 	case MQTT_EVENT_SUBSCRIBED:
 		ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
-		// msg_id = esp_mqtt_client_publish(client, "/topic/qos0", "data", 0, 0, 0);
-		// ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 		break;
 	case MQTT_EVENT_UNSUBSCRIBED:
 		ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
@@ -94,10 +93,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		char *c_topic = get_len_str(event->topic, event->topic_len);
 		char *c_data = get_len_str(event->data, event->data_len);
 		char *response = response_s;
-		buzzer();
 		if (strcmp(c_topic, "s3sysop-get") == 0)
 		{
-			// todo 执行可能导致系统崩溃, 怀疑是c99标准和nano format兼容问题
 			if (strcmp(c_data, "info-sys") == 0)
 			{
 				ESP_LOGI(TAG,"trigger get sys info");
@@ -112,18 +109,38 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 		}
 		if (strcmp(c_topic, "s3sysop-set") == 0)
 		{
+			if (strcmp(c_data, "sw11") == 0)
+			{
+				switch_control1(SWITCH_GPIO_PIN1, switch_open);
+			}
+			else if (strcmp(c_data, "sw10") == 0)
+			{
+				switch_control1(SWITCH_GPIO_PIN1, switch_close);
+			}
+			if (strcmp(c_data, "sw21") == 0)
+			{
+				switch_control2(SWITCH_GPIO_PIN2, switch_open);
+			}
+			else if (strcmp(c_data, "sw20") == 0)
+			{
+				switch_control2(SWITCH_GPIO_PIN2, switch_close);
+			}
+			
 			if (strcmp(c_data, "reset_wifi") == 0)
 			{
+				lcd_print(c_data);
 				wifi_reset();
 			}
 			if (strcmp(c_data, "restart_os") == 0)
 			{
+				lcd_print(c_data);
 				esp_restart();
 			}
 			if (strcmp(c_data, "ota_update") == 0)
 			{
 				strncpy(response, "ota update\0", RESPONSE_SIZE - 1);
 				response[RESPONSE_SIZE - 1] = '\0';
+				lcd_print(c_data);
 				create_ota_tag();
 			}
 			if (strcmp(c_data, "debug_mode") == 0)
@@ -140,8 +157,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 					strncpy(response, "debug_mode off\0", RESPONSE_SIZE - 1);
 					response[RESPONSE_SIZE - 1] = '\0';
 				}
+				lcd_print(c_data);
 			}
-			lcd_print(c_data);
 			
 		}
 		free(c_topic);
@@ -200,4 +217,10 @@ void mqtt_app_destroy()
 {
 	is_start_mqtt = 0;
 	esp_mqtt_client_destroy(client); // 没必要
+}
+
+void mqtt_app_publish(char *topic,char *msg)
+{
+	int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 0, 1);
+	ESP_LOGI(TAG, "mqtt publish, msg_id=%d", msg_id);
 }

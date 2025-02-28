@@ -119,6 +119,10 @@ void app_main(void)
 	buzzer();
 	buzzer();
 
+	// 若意外重启，恢复mqtt默认电位
+	mqtt_app_publish("s3sw2_state", "sw20");
+	mqtt_app_publish("s3sw1_state", "sw10");
+
 	/*
 	nec_tx_init();
 	ir_nec_scan_code_t scan_code = {

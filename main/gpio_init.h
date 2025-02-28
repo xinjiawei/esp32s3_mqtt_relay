@@ -1,7 +1,10 @@
 #pragma once
-#define BUTTON_GPIO_PIN 4 // °´Å¥Á¬½ÓµÄ GPIO Òý½Å
+#define BUTTON_GPIO_PIN 4 // æŒ‰é’®è¿žæŽ¥çš„ GPIO å¼•è„š
 
-#define BUZZER_GPIO_PIN 5 // ·äÃùÆ÷Á¬½ÓµÄ GPIO Òý½Å
+#define BUZZER_GPIO_PIN 5 // èœ‚é¸£å™¨è¿žæŽ¥çš„ GPIO å¼•è„š
+
+#define SWITCH_GPIO_PIN1 6 // èœ‚é¸£å™¨è¿žæŽ¥çš„ GPIO å¼•è„š
+#define SWITCH_GPIO_PIN2 7 // èœ‚é¸£å™¨è¿žæŽ¥çš„ GPIO å¼•è„š
 
 
 #include "driver/gpio.h"

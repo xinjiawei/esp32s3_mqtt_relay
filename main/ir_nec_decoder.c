@@ -1,6 +1,6 @@
 #include "ir_nec_decoder.h"
-#include "buzzer.h"
-#include "led.h"
+#include "switch.h"
+
 #define EXAMPLE_IR_NEC_DECODE_MARGIN 200 // Tolerance for parsing RMT symbols into bit stream
 
 /**
@@ -133,9 +133,30 @@ void example_parse_nec_frame(rmt_symbol_word_t *rmt_nec_symbols, size_t symbol_n
 		{
 			ESP_LOGI(TAG, "Address=%04X, Command=%04X", s_nec_code_address, s_nec_code_command);
 		}
-		led_blink(0, 0, 16);
-		buzzer();
-		break;
+
+		switch (s_nec_code_command)
+		{
+		case 0xba45:
+			switch_control1(SWITCH_GPIO_PIN1, switch_open);
+			break;
+		case 0xb946:
+			switch_control1(SWITCH_GPIO_PIN1, switch_close);
+			break;
+		case 0xb847:
+			switch_control1(SWITCH_GPIO_PIN1, switch_toggle);
+			break;
+		case 0xbb44:
+			switch_control2(SWITCH_GPIO_PIN2, switch_open);
+			break;
+		case 0xbf40:
+			switch_control2(SWITCH_GPIO_PIN2, switch_close);
+			break;
+		case 0xbc43:
+			switch_control2(SWITCH_GPIO_PIN2, switch_toggle);
+			break;
+		}
+
+			break;
 	case 2: // NEC repeat frame
 		if (nec_parse_frame_repeat(rmt_nec_symbols))
 		{

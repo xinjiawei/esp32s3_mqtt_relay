@@ -1,5 +1,6 @@
 #include "button.h"
 #include "buzzer.h"
+#include "switch.h"
 
 #define SHORT_PRESS_TIME_MS 1000 // 短按时间阈值
 #define LONG_PRESS_TIME_MS_MIN 2000	 // 长按时间阈值
@@ -98,10 +99,13 @@ static void button_task(void *arg)
 				// 判断按下时间
 				if (press_duration > 5 && press_duration < pdMS_TO_TICKS(SHORT_PRESS_TIME_MS))
 				{
-					buzzer();
-					led_blink(0, 16, 0);
+					
+					// buzzer();
+					// led_blink(0, 16, 0);
 					ESP_LOGI(TAG, "Power trager %d %lu %lu", button_match, press_time, press_duration);
-					// 短按逻辑：电源开关
+					switch_control1(SWITCH_GPIO_PIN1, switch_close);
+					switch_control2(SWITCH_GPIO_PIN2, switch_close);
+					// 短按逻辑：电源停机
 				}
 				else if (press_duration >= pdMS_TO_TICKS(LONG_PRESS_TIME_MS_MIN) && press_duration <= pdMS_TO_TICKS(LONG_PRESS_TIME_MS_MAX))
 				{

@@ -7,6 +7,7 @@
 #include "web_handler.h"
 #include "version.h"
 #include "wifimanager.h"
+#include "buzzer.h"
 // #include "ir.h"
 #include "tools.h"
 
@@ -210,12 +211,13 @@ char *index_handler(int key, char *value)
 	switch (key)
 	{
 	case 0: //
-		power_info_print(value);
+		//power_info_print(value);
 		break;
 	default:
 		get_info_handle(&response_t);
 		break;
 	}
+	buzzer();
 	extern int debug;
 	if (debug)
 		ESP_LOGI(TAG, "key: %d, response: %s", key, response_t);

@@ -17,6 +17,7 @@ idf_component_register(
                     	button.c
                     	gpio_init.c
                     	buzzer.c
+                    	switch.c
                     PRIV_REQUIRES
                     	esp_driver_tsens
                     	mqtt
