@@ -70,7 +70,7 @@ void filesys_init()
 	}
 	else
 	{
-		ESP_LOGI(TAG, "Partition size: total: %zu, used: %zu", total, used);
+		ESP_LOGI(TAG, "Partition size: total: %llu, used: %llu", (unsigned long long)total, (unsigned long long)used);
 	}
 
 	// Check consistency of reported partition size info.
@@ -268,14 +268,6 @@ float float_from_8hex(int arr[])
 
 	// ********* Compute final result **********
 	return mult * answer;
-}
-
-/*
- *解析电表电量数据*/
-void print_ddsu666_params(uint8_t bytes[], volatile float *voltage, volatile float *current,
-						  volatile float *a_power, volatile float *r_power, volatile float *ap_power,
-						  volatile float *power_factor, volatile float *power_frequency)
-{
 }
 
 /*

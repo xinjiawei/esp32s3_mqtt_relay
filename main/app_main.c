@@ -19,6 +19,7 @@
 #include "ir.h"
 #include "button.h"
 #include "buzzer.h"
+#include "switch.h"
 
 #define SYSLOG_IP "10.168.1.128"
 #define SYSLOG_PORT 514
@@ -37,8 +38,8 @@ static const char *TAG = "main";
 volatile int debug;
 temperature_sensor_handle_t temp_handle = NULL;
 
-const char *ota_url = CONFIG_DDSU666_OTA;
-const char *mqtt4_connect_url = CONFIG_DDSU666_MQTT;
+const char *ota_url = CONFIG_ESP32_OTA;
+const char *mqtt4_connect_url = CONFIG_ESP32_MQTT;
 
 // #define NUM_RECORDS 10
 // static heap_trace_record_t trace_record[NUM_RECORDS]; // 该缓冲区必须在内部 RAM 中
@@ -77,6 +78,10 @@ void app_main(void)
 	// 初始化片上温度传感器
 	temperature_sensor_config_t temp_sensor_config = TEMPERATURE_SENSOR_CONFIG_DEFAULT(-30, 50);
 	ESP_ERROR_CHECK(temperature_sensor_install(&temp_sensor_config, &temp_handle));
+
+	// 开机默认关闭继电器
+	switch_control1(SWITCH_GPIO_PIN1, switch_close);
+	switch_control2(SWITCH_GPIO_PIN2, switch_close);
 	
 	// wifi 初始化完成tag
 	int wifi_ok = 0;

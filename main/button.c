@@ -22,8 +22,8 @@ button_event_t button_event_last = BUTTON_EVENT_RELEASED;
 // GPIO 中断服务程序
 static void IRAM_ATTR button_isr_handler(void *arg)
 {
-	static TickType_t last_interrupt_time = 0; // 上一次中断时间
-	static TickType_t press_time = 0;		   // 按钮按下时间
+	TickType_t last_interrupt_time = 0; // 上一次中断时间
+	TickType_t press_time = 0;		   // 按钮按下时间
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
 	button_event_t button_event_now;

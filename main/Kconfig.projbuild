@@ -1,14 +1,14 @@
-menu "Example Configuration"
+menu "Params Configuration"
 
-    config DDSU666_MQTT
+    config ESP32_MQTT
         string "mqtt Broker URL"
         default "mqtt://admin:123456@act.jiawei.xin:1883"
         help
             URL of the mqtt broker
 
-    config DDSU666_OTA
+    config ESP32_OTA
         string "ota download URL"
-        default "https://act.jiawei.xin:10086/485/firmware/esp32c3_mqtt_ddsu666.bin"
+        default "https://act.jiawei.xin:10086/485/firmware/esp32s3_mqtt_relay.bin"
         help
             URL of the ota
 

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "esp-idf/app_trace",
+		"source" : "D:/SysGCC/esp32/esp-idf/v5.4/components/app_trace"
+	}
+}

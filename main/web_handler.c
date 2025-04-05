@@ -88,10 +88,10 @@ static void get_info_handle(char **response)
 	size_t total_bytes, used_bytes;
 	esp_spiffs_info("spiffs", &total_bytes, &used_bytes);
 
-	snprintf(ret_buffer, RET_BUFFER_SIZE, "%zuKB", total_bytes / 1024);
+	snprintf(ret_buffer, RET_BUFFER_SIZE, "%lluKB", (unsigned long long)total_bytes / 1024);
 	cJSON_AddStringToObject(root, "fs_total", ret_buffer);
 
-	snprintf(ret_buffer, RET_BUFFER_SIZE, "%zuKB", used_bytes / 1024);
+	snprintf(ret_buffer, RET_BUFFER_SIZE, "%lluKB", (unsigned long long)used_bytes / 1024);
 	cJSON_AddStringToObject(root, "fs_used", ret_buffer);
 
 	extern temperature_sensor_handle_t temp_handle;
@@ -161,47 +161,6 @@ void print_free_heap()
 	snprintf(ret_buffer, RET_BUFFER_SIZE, "%sKB", tmp_buffer);
 	ESP_LOGI(TAG, "free_heap %s", ret_buffer);
 }
-
-void power_info_print(char *value) {
-	// 将读取到的json字符串转换成json变量指针
-	cJSON *root = cJSON_Parse(value);
-	if (!root)
-	{
-		ESP_LOGW(TAG, "Error before: [%s]", cJSON_GetErrorPtr());
-		return;
-	}
-
-	cJSON *ap_item = NULL;
-	cJSON *total_e__item = NULL;
-	char *ap = NULL;
-	char *total_e = NULL;
-
-	ap_item = cJSON_GetObjectItem(root, "ap");
-	if (ap_item != NULL)
-	{
-		// 判断是不是字符串类型
-		if (ap_item->type == cJSON_String)
-		{
-			ap = ap_item->valuestring; // 此赋值是浅拷贝，不需要现在释放内存
-			printf("ap = %s\n", ap);
-		}
-	}
-
-	total_e__item = cJSON_GetObjectItem(root, "total_e");
-	if (total_e__item != NULL)
-	{
-		// 判断是不是字符串类型
-		if (total_e__item->type == cJSON_String)
-		{
-			total_e = total_e__item->valuestring; // 此赋值是浅拷贝，不需要现在释放内存
-			printf("total_e = %s\n", total_e);
-		}
-	}
-	char *buffer[40];
-	sprintf("power: %s\r\ntotal:%s", ap, total_e);
-	lcd_print(buffer);
-	
-	}
 
 /*
  *事件处理接口*/
