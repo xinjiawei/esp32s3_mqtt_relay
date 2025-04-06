@@ -18,6 +18,8 @@ idf_component_register(
                     	gpio_init.c
                     	buzzer.c
                     	switch.c
+                    	8sedisplay.c
+                    	display.c
                     PRIV_REQUIRES
                     	esp_driver_tsens
                     	mqtt

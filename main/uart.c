@@ -56,7 +56,7 @@ static int rec_wait = 5;
 // 串口初始化
 void uart_init()
 {
-	lcd_print("uart init . . .");
+	display_print("uart init . . .");
 	uart_config_t uart_config = {
 		.baud_rate = 9600,
 		.data_bits = UART_DATA_8_BITS,
@@ -92,7 +92,7 @@ void uart_init()
 	// Allocate buffers for UART rec
 	data_rec_p = (uint8_t *)malloc(sizeof(uint8_t) * BUF_SIZE);
 
-	lcd_print("watchdog init . . .");
+	display_print("watchdog init . . .");
 	// 看门狗初始化
 	task_watchdog_init();
 }

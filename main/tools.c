@@ -1,13 +1,13 @@
 #include "tools.h"
 
 #include "led.h"
-#include "lcd.h"
+#include "display.h"
 
 static const char *TAG = "tools";
 
 void filesys_init()
 {
-	lcd_print("filesys init . . .");
+	display_print("filesys init . . .");
 	// Initialize NVS.
 	esp_err_t err = nvs_flash_init();
 	if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND)

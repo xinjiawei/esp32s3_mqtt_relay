@@ -70,12 +70,12 @@ void simple_ota_example_task(void *pvParameter)
     ESP_LOGI(TAG, "Attempting to download update from %s", config.url);
     esp_err_t ret = esp_https_ota(&ota_config);
     if (ret == ESP_OK) {
-		lcd_print("ota ok, reboot . . .");
+		display_print("ota ok, reboot . . .");
         ESP_LOGI(TAG, "OTA Succeed, Rebooting...");
 		led_loop(5);
 		esp_restart();
     } else {
-		lcd_print("ota failed, reboot . . .");
+		display_print("ota failed, reboot . . .");
         ESP_LOGE(TAG, "Firmware upgrade failed");
     }
     while (1) {
@@ -112,7 +112,7 @@ static void get_sha256_of_partitions(void)
 
 void ota_start()
 {
-	lcd_print("ota init . . .");
+	display_print("ota init . . .");
     ESP_LOGI(TAG, "OTA start");
     get_sha256_of_partitions();
 

@@ -276,7 +276,7 @@ void wifi_reset()
  *wifi连接初始化*/
 void wifi_init(int *wifi_ok)
 {
-	lcd_print("wifi init . . .");
+	display_print("wifi init . . .");
 	s_wifi_event_group = xEventGroupCreate();
 	ESP_ERROR_CHECK(esp_netif_init());
 

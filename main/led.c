@@ -1,6 +1,6 @@
 #include "led.h"
 
-#include "lcd.h"
+#include "display.h"
 
 static const char *TAG = "led";
 
@@ -116,7 +116,7 @@ static void blink_led(const uint32_t s_led_state)
  *led初始化*/
 void led_configure(void)
 {
-	lcd_print("led init . . .");
+	display_print("led init . . .");
 #ifdef WS2812_LED
 
 	ESP_LOGI(TAG, "Create RMT TX channel");

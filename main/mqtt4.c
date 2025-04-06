@@ -105,7 +105,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 				free(response_t);
 			}
-			lcd_print(c_data);
+			display_print(c_data);
 		}
 		if (strcmp(c_topic, "s3sysop-set") == 0)
 		{
@@ -128,19 +128,19 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 			
 			if (strcmp(c_data, "reset_wifi") == 0)
 			{
-				lcd_print(c_data);
+				display_print(c_data);
 				wifi_reset();
 			}
 			if (strcmp(c_data, "restart_os") == 0)
 			{
-				lcd_print(c_data);
+				display_print(c_data);
 				esp_restart();
 			}
 			if (strcmp(c_data, "ota_update") == 0)
 			{
 				strncpy(response, "ota update\0", RESPONSE_SIZE - 1);
 				response[RESPONSE_SIZE - 1] = '\0';
-				lcd_print(c_data);
+				display_print(c_data);
 				create_ota_tag();
 			}
 			if (strcmp(c_data, "debug_mode") == 0)
@@ -157,7 +157,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 					strncpy(response, "debug_mode off\0", RESPONSE_SIZE - 1);
 					response[RESPONSE_SIZE - 1] = '\0';
 				}
-				lcd_print(c_data);
+				display_print(c_data);
 			}
 			
 		}
@@ -193,7 +193,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 void mqtt_app_start()
 {
-	lcd_print("mqtt init . . .");
+	display_print("mqtt init . . .");
 	if (!is_start_mqtt)
 	{
 		return;

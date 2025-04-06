@@ -15,7 +15,7 @@
 #include "nvs_flash.h"
 
 #include "led.h"
-#include "lcd.h"
+#include "display.h"
 
 #include "zh_syslog.h"
 

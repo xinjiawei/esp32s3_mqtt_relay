@@ -15,7 +15,7 @@
 #include "tools.h"
 #include "uart.h"
 #include "ota.h"
-#include "lcd.h"
+#include "display.h"
 #include "ir.h"
 #include "button.h"
 #include "buzzer.h"
@@ -53,11 +53,11 @@ void app_main(void)
 	gpio_init();
 
 	// 初始化lcd
-	lcd_init();
+	//lcd_init();
 	
 	// heap_trace_init_standalone(trace_record, NUM_RECORDS);
 
-	lcd_print("net init . . .");
+	display_print("net init . . .");
 	ESP_ERROR_CHECK(esp_netif_init());
 	ESP_ERROR_CHECK(esp_event_loop_create_default());
 
@@ -74,7 +74,7 @@ void app_main(void)
 
 	led_configure();
 
-	lcd_print("core sensor init . . .");
+	display_print("core sensor init . . .");
 	// 初始化片上温度传感器
 	temperature_sensor_config_t temp_sensor_config = TEMPERATURE_SENSOR_CONFIG_DEFAULT(-30, 50);
 	ESP_ERROR_CHECK(temperature_sensor_install(&temp_sensor_config, &temp_handle));
@@ -111,15 +111,15 @@ void app_main(void)
 
 	
 	// ir task
-	lcd_print("ir init . . .");
+	display_print("ir init . . .");
 	nec_rx_init();
 	nec_rx(5000);
 	
 	//button
-	lcd_print("button init . . .");
+	display_print("button init . . .");
 	button_init();
 
-	lcd_print("ok");
+	display_print("ok");
 	buzzer();
 	buzzer();
 	buzzer();

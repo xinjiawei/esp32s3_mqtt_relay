@@ -5,8 +5,6 @@
 #include "freertos/queue.h"
 #include "esp_log.h"
 
-#define EXAMPLE_IR_TX_GPIO_NUM 5
-#define EXAMPLE_IR_RX_GPIO_NUM 42
 #define EXAMPLE_IR_RESOLUTION_HZ 1000000 // 1MHz resolution, 1 tick = 1us
 
 

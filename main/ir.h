@@ -1,6 +1,7 @@
 #pragma once
 #ifndef IRBABY_IR_H_
 #define IRBABY_IR_H_
+#include "gpio_init.h"
 #include "driver/rmt_tx.h"
 #include "driver/rmt_rx.h"
 #include "ir_nec_encoder.h"
